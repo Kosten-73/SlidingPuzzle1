@@ -4,6 +4,8 @@ import { Puzzle } from "./Puzzle";
 export class GameScene extends Phaser.Scene {
   movesText!: Phaser.GameObjects.Text;
   starsText!: Phaser.GameObjects.Text;
+  backBtn!: Phaser.GameObjects.Text;
+
 
   puzzle!: Puzzle;
   tileSize = 60;
@@ -21,15 +23,32 @@ export class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.movesText = this.add.text(10, 10, `Ходы: ${this.moves}`, { color: "#000" });
-    this.starsText = this.add.text(10, 30, this.getStarsPreview(), { color: "#000" });
+    // Кнопка "Назад"
+    this.backBtn = this.add.text(10, 10, "← Назад", {
+      color: "#000",
+      backgroundColor: "#dddddd",
+      padding: { x: 6, y: 4 }
+    });
+
+    this.backBtn.setInteractive({ useHandCursor: true });
+    this.backBtn.on("pointerdown", () => {
+      this.scene.start("LevelMap");
+    });
+
+    this.movesText = this.add.text(120, 10, `Ходы: ${this.moves}`, { color: "#000" });
+    this.starsText = this.add.text(120, 30, this.getStarsPreview(), { color: "#000" });
 
     this.drawPuzzle();
   }
 
+
   drawPuzzle() {
     this.children.list
-      .filter(obj => obj !== this.movesText && obj !== this.starsText)
+      .filter(obj =>
+        obj !== this.movesText &&
+        obj !== this.starsText &&
+        obj !== this.backBtn
+      )
       .forEach(obj => obj.destroy());
 
 
@@ -96,5 +115,4 @@ export class GameScene extends Phaser.Scene {
       if (this.moves <= maxMoves * 2) return "⭐⭐☆";
       return "⭐☆☆";
     }
-
 }
