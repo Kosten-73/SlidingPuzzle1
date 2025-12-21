@@ -20,7 +20,8 @@ export class LevelMapScene extends Phaser.Scene {
       const stars = levelProgress[level.id] || 0;
       const unlocked = this.isLevelUnlocked(level.id, levelProgress);
 
-      const btn = this.add.text(x, y, unlocked ? `${level.id}` : "🔒", {
+      const label = level.id % 5 === 0 ? "⏱" : `${level.id}`; // timeLimit
+      const btn = this.add.text(x, y, unlocked ? `${label}` : "🔒", {
         backgroundColor: stars > 0 ? "#7CFC90" : unlocked ? "#cccccc" : "#999999",
         color: "#000",
         padding: { x: 6, y: 6 }
