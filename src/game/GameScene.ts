@@ -111,11 +111,21 @@ export class GameScene extends Phaser.Scene {
 
           if (this.puzzle.isSolved()) {
             const stars = this.calculateStars();
-            this.saveProgress(this.levelData.id, stars);
 
-            if (this.timerEvent) this.timerEvent.remove(false);
+            let timeUsed: number | undefined = undefined;
+            if (this.levelData.id % 5 === 0 && this.levelData.timeLimit > 0) {
+              timeUsed = this.levelData.timeLimit - this.timeLeft;
+            }
 
-            this.add.text(120, 70, `Уровень пройден! ⭐${"⭐".repeat(stars)}`, { color: "#00aa00" });
+            if (this.timerEvent) {
+              this.timerEvent.remove(false);
+            }
+
+            // Сохраняем прогресс: звёзды и время (для таймерных уровней)
+            this.saveProgress(this.levelData.id, stars, timeUsed);
+
+            this.add.text(120, 70, `Уровень пройден! ${"⭐".repeat(stars)}`, { color: "#00aa00" });
+
             this.time.delayedCall(1000, () => this.scene.start("LevelMap"));
           }
 
@@ -125,10 +135,16 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
-  saveProgress(levelId: number, stars: number) {
+  saveProgress(levelId: number, stars: number, timePassed?: number) {
     const progress = JSON.parse(localStorage.getItem("levelProgress") || "{}");
-    const previousStars = progress[levelId] || 0;
-    progress[levelId] = Math.max(previousStars, stars);
+
+    const previousData = progress[levelId] || { stars: 0, time: undefined };
+
+    progress[levelId] = {
+      stars: Math.max(previousData.stars, stars),
+      time: timePassed !== undefined ? timePassed : previousData.time
+    };
+
     localStorage.setItem("levelProgress", JSON.stringify(progress));
   }
 
