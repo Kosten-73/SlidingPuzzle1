@@ -26,13 +26,13 @@ export class Puzzle {
 
   getPossibleMoves(): number[] {
     const moves: number[] = [];
-    const row = Math.floor(this.emptyIndex / this.size);
-    const col = this.emptyIndex % this.size;
+    const row = Math.floor(this.emptyIndex / this.size); // строка
+    const col = this.emptyIndex % this.size; // столбец
 
-    if (row > 0) moves.push(this.emptyIndex - this.size);
-    if (row < this.size - 1) moves.push(this.emptyIndex + this.size);
-    if (col > 0) moves.push(this.emptyIndex - 1);
-    if (col < this.size - 1) moves.push(this.emptyIndex + 1);
+    if (row > 0) moves.push(this.emptyIndex - this.size); // вверх
+    if (row < this.size - 1) moves.push(this.emptyIndex + this.size); // вниз
+    if (col > 0) moves.push(this.emptyIndex - 1); // влево
+    if (col < this.size - 1) moves.push(this.emptyIndex + 1); // вправо
 
     return moves;
   }

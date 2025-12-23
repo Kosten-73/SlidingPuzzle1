@@ -6,8 +6,8 @@ export class GameScene extends Phaser.Scene {
   starsText!: Phaser.GameObjects.Text;
   backBtn!: Phaser.GameObjects.Text;
   timerText!: Phaser.GameObjects.Text;
-  timeLeft!: number;
-  timerEvent!: Phaser.Time.TimerEvent;
+  timeLeft!: number; // сколько секунд осталось
+  timerEvent!: Phaser.Time.TimerEvent; // событие Phaser, которое срабатывает каждую секунду
 
   puzzle!: Puzzle;
   tileSize = 60;
@@ -27,9 +27,9 @@ export class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.input.once('pointerdown', () => {
-      this.sound.context.resume();
-    });
+//     this.input.once('pointerdown', () => {
+//       this.sound.context.resume();
+//     });
 
     this.backBtn = this.add.text(10, 10, "← Назад", {
       color: "#000",

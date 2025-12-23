@@ -13,8 +13,7 @@ export class LevelMapScene extends Phaser.Scene {
 
     this.add.text(120, 20, "Выбор уровня", { color: "#000" });
 
-    // Кнопка "Начать заново"
-    const restartBtn = this.add.text(400, 20, "Начать заново", {
+    const restartBtn = this.add.text(100, 500, "Начать заново", {
       color: "#fff",
       backgroundColor: "#f00",
       padding: { x: 6, y: 4 }
@@ -38,8 +37,7 @@ export class LevelMapScene extends Phaser.Scene {
         label = progressData.time !== undefined ? `${progressData.time}s` : "⏱";
       } else if (level.id % 4 === 0) {
           label = "?"
-      }
-      else {
+      } else {
         label = `${level.id}`;
       }
 
@@ -47,7 +45,6 @@ export class LevelMapScene extends Phaser.Scene {
       if (level.id % 5 === 0) {
         bgColor = progressData.time !== undefined ? "#7CFC90" : unlocked ? "#cccccc" : "#999999";
       } else {
-        // Обычный уровень: зелёный если stars > 0
         bgColor = stars > 0 ? "#7CFC90" : unlocked ? "#cccccc" : "#999999";
       }
 
@@ -64,7 +61,6 @@ export class LevelMapScene extends Phaser.Scene {
         });
       }
 
-      // Звёздочки под кнопкой (только если обычный уровень или таймерный уже пройден)
       const starsToShow = stars > 0 ? "⭐".repeat(stars) : "";
       this.add.text(x, y + 18, starsToShow, { fontSize: "10px", color: "#000" });
     });
